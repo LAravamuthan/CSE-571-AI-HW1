@@ -77,7 +77,8 @@ def ucs():
     '''(nextstate, cost) = problem.get_successor(state, action)'''
 
     while frontier:
-        current_state = heapq.heappop(frontier);
+        current_state = heapq.heappop(frontier)
+        print(current_state);
         [current_path, current_cost] = paths[stringifyState(current_state)];
         explored_states.append(current_state);
         for possible_action in possible_actions:
