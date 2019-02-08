@@ -92,7 +92,7 @@ def ucs():
     while frontier:
         current_state = heapq.heappop(frontier)[1];
         [current_path, current_cost] = paths[stringifyState(current_state)];
-        if (problem.is_goal_state(nextstate)):
+        if (problem.is_goal_state(current_state)):
             print("goal found ");
             return current_path;
         explored_states.append(current_state);
