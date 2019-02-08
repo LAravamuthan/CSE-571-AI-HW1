@@ -20,11 +20,12 @@ def contains(heap, value):
         return True
     return False;
 
-def costLessOverHead(heap, value, cost):
+def costLessOverHead(heap, value, cost, paths, path_e):
     newHeap = [i for i in heap if i[1] == value and i[0] > cost];
     if len(newHeap) < len(heap):
         print("frontier condition happened");
-        newHeap.append((cost, value))
+        newHeap.append((cost, value));
+        paths[stringifyState(value)] = [path_e, cost];
     heapq.heapify(newHeap);
     return newHeap;
 
@@ -105,7 +106,7 @@ def ucs():
                 print(stringifyState(current_state), stringifyState(nextstate), possible_action);
                 heapq.heappush(frontier, (totalCost, nextstate));
                 paths[stringifyState(nextstate)] = [path_e,totalCost];
-            frontier = costLessOverHead(frontier, nextstate, totalCost);
+            frontier = costLessOverHead(frontier, nextstate, totalCost, paths, path_e);
     print("goal not found");
     return [];
 
