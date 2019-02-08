@@ -25,7 +25,8 @@ def bfs():
     if (problem.is_goal_state(init_state)):
         return paths[init_state];
     explored_states = [];
-    frontier = deque(init_state);
+    frontier = deque();
+    frontier.append(init_state);
 
     #to get the next state, cost for an action on state_x use:
     '''(nextstate, cost) = problem.get_successor(state, action)'''
