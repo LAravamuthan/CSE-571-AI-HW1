@@ -5,6 +5,7 @@ import problem
 import rospy
 from std_msgs.msg import String
 import argparse
+import queue
 
 publisher = rospy.Publisher("/actions",String,queue_size =10)
 parser = argparse.ArgumentParser()
@@ -15,15 +16,33 @@ parser.add_argument('-a',help = "Please mention algorithm to use. Default is BFS
 def bfs():
     init_state = problem.get_initial_state()
     goal_state = problem.get_goal_state()
-    possible_actions = problem.get_actions() 
-    action_list = []
+    possible_actions = problem.get_actions()
+    frontier = queue.Queue();
+    action_list = [];
+    paths = {};
+    paths[init_state] = action_list;
+
+    if (problem.is_goal_state(init_state)):
+        return paths[init_state];
+    explored_states = set();
+    frontier.put(init_state);
 
     #to get the next state, cost for an action on state_x use:
-    (nextstate, cost) = problem.get_successor(state, action)
+    '''(nextstate, cost) = problem.get_successor(state, action)'''
 
-    '''
-    YOUR CODE HERE
-    '''
+    while frontier.qsize()>0:
+        current_state = frontier.pop();
+        current_path = paths[current_state];
+        explored_states.add(current_state);
+        for possible_action in possible_actions:
+            (nextstate, cost) = problem.get_successor(possible_action, current_state);
+            if nextstate not in explored_states and nextstate not in frontier:
+                path_e = current_path;
+                path_e.append(possible_action);
+                if(problem.is_goal_state(nextstate)):
+                    return path_e;
+                frontier.put(nextstate);
+                paths[nextstate] = path_e;
 
 
     return action_list
