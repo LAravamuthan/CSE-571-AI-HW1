@@ -15,6 +15,19 @@ parser.add_argument('-a',help = "Please mention algorithm to use. Default is BFS
 def stringifyState(state):
     return str(state.x) + str(state.y) + str(state.orientation);
 
+def contains(heap, value):
+    if len([(x, y) for x, y in heap if y == value]) > 0:
+        return True
+    return False;
+
+def costLessOverHead(heap, value, cost):
+    newHeap = [i for i in heap if i[1] == value and i[0] > cost];
+    if len(newHeap) < len(heap):
+        print("frontier condition happened");
+        newHeap.append((cost, value))
+    heapq.heapify(newHeap);
+    return newHeap;
+
 def bfs():
     init_state = problem.get_initial_state()
     goal_state = problem.get_goal_state()
@@ -79,20 +92,20 @@ def ucs():
     while frontier:
         current_state = heapq.heappop(frontier)[1];
         [current_path, current_cost] = paths[stringifyState(current_state)];
+        if (problem.is_goal_state(nextstate)):
+            print("goal found ");
+            return current_path;
         explored_states.append(current_state);
         for possible_action in possible_actions:
             (nextstate, cost) = problem.get_successor(current_state, possible_action);
-            if nextstate not in explored_states and cost > 0:
+            path_e = current_path[:];
+            path_e.append(possible_action);
+            totalCost = current_cost + cost;
+            if nextstate not in explored_states and not contains(frontier, nextstate) and cost > 0:
                 print(stringifyState(current_state), stringifyState(nextstate), possible_action);
-                path_e = current_path[:];
-                path_e.append(possible_action);
-                if (problem.is_goal_state(nextstate)):
-                    print("goal found ");
-                    # print(frontier);
-                    # print(explored_states);
-                    return path_e;
-                heapq.heappush(frontier, (current_cost + cost, nextstate));
-                paths[stringifyState(nextstate)] = [path_e,current_cost+cost];
+                heapq.heappush(frontier, (totalCost, nextstate));
+                paths[stringifyState(nextstate)] = [path_e,totalCost];
+            frontier = costLessOverHead(frontier, nextstate, totalCost);
     print("goal not found");
     return [];
 
