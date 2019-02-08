@@ -35,7 +35,7 @@ def bfs():
         current_path = paths[str(current_state.x) + str(current_state.y) + str(current_state.orientation)];
         explored_states.append(current_state);
         for possible_action in possible_actions:
-            (nextstate, cost) = problem.get_successor(possible_action, current_state);
+            (nextstate, cost) = problem.get_successor(current_state,possible_action);
             if nextstate not in explored_states and nextstate not in frontier:
                 path_e = current_path;
                 path_e.append(possible_action);
