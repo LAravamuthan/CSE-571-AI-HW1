@@ -55,9 +55,10 @@ def ucs():
     action_list = []
 
     #to get the next state, cost for an action on state_x use:
-    (nextstate, cost) = problem.get_successor(state, action)
+
 
     '''
+    (nextstate, cost) = problem.get_successor(state, action)
     YOUR CODE HERE
     '''
 
@@ -71,9 +72,10 @@ def gbfs():
     action_list = []
 
     #to get the next state, cost for an action on state_x use:
-    (nextstate, cost) = problem.get_successor(state, action)
+
 
     '''
+     (nextstate, cost) = problem.get_successor(state, action)
     YOUR CODE HERE
     '''
 
@@ -87,10 +89,11 @@ def astar():
     action_list = []
 
     #to get the next state, cost for an action on state_x use:
-    (nextstate, cost) = problem.get_successor(state, action)
+
 
     '''
     YOUR CODE HERE
+    (nextstate, cost) = problem.get_successor(state, action)
     '''
 
 
@@ -111,7 +114,7 @@ if __name__ == "__main__":
         print "Incorrect Algorithm name."
         exit(1)
     actions = algorithm()
-    exec_action_list(actions)
+    exec_action_list(actions);
 
 
 
