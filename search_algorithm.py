@@ -12,7 +12,7 @@ publisher = rospy.Publisher("/actions",String,queue_size =10)
 parser = argparse.ArgumentParser()
 parser.add_argument('-a',help = "Please mention algorithm to use. Default is BFS", metavar = 'bfs', action='store', dest='algorithm', default="bfs", type=str)
 
-def stringifyState(self, state):
+def stringifyState(state):
     return str(state.x) + str(state.y) + str(state.orientation);
 
 def bfs():
