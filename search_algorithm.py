@@ -20,7 +20,7 @@ def bfs():
     frontier = queue.Queue();
     action_list = [];
     paths = {};
-    paths[init_state] = action_list;
+    paths[str(init_state.x) + str(init_state.y) + str(init_state.orientation)] = action_list;
 
     if (problem.is_goal_state(init_state)):
         return paths[init_state];
@@ -32,7 +32,7 @@ def bfs():
 
     while frontier.qsize()>0:
         current_state = frontier.pop();
-        current_path = paths[current_state];
+        current_path = paths[str(current_state.x) + str(current_state.y) + str(current_state.orientation)];
         explored_states.add(current_state);
         for possible_action in possible_actions:
             (nextstate, cost) = problem.get_successor(possible_action, current_state);
@@ -42,7 +42,7 @@ def bfs():
                 if(problem.is_goal_state(nextstate)):
                     return path_e;
                 frontier.put(nextstate);
-                paths[nextstate] = path_e;
+                paths[str(nextstate.x) + str(nextstate.y) + str(nextstate.orientation)] = path_e;
 
 
     return action_list
