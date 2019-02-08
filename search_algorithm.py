@@ -17,6 +17,8 @@ parser.add_argument('-a',help = "Please mention algorithm to use. Default is BFS
 def bfs():
     init_state = problem.get_initial_state()
     goal_state = problem.get_goal_state()
+    print(init_state.x, init_state.y, init_state.orientation);
+    print(goal_state.x, goal_state.y, goal_state.orientation);
     possible_actions = problem.get_actions()
 
     action_list = [];
@@ -42,9 +44,9 @@ def bfs():
                 path_e = current_path;
                 path_e.append(possible_action);
                 if(problem.is_goal_state(nextstate)):
-                    print("goal found ");
-                    print(frontier);
-                    print(explored_states);
+                    #print("goal found ");
+                    #print(frontier);
+                    #print(explored_states);
                     return path_e;
                 frontier.append(nextstate);
                 paths[str(nextstate.x) + str(nextstate.y) + str(nextstate.orientation)] = path_e;
