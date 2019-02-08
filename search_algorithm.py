@@ -7,6 +7,7 @@ from std_msgs.msg import String
 import argparse
 from collections import deque
 
+rospy.init_node("walk")
 publisher = rospy.Publisher("/actions",String,queue_size =10)
 parser = argparse.ArgumentParser()
 parser.add_argument('-a',help = "Please mention algorithm to use. Default is BFS", metavar = 'bfs', action='store', dest='algorithm', default="bfs", type=str)
