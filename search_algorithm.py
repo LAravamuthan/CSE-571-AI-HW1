@@ -5,7 +5,7 @@ import problem
 import rospy
 from std_msgs.msg import String
 import argparse
-import queue
+import Queue as queue
 
 publisher = rospy.Publisher("/actions",String,queue_size =10)
 parser = argparse.ArgumentParser()
