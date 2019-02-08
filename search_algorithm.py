@@ -31,7 +31,7 @@ def bfs():
     '''(nextstate, cost) = problem.get_successor(state, action)'''
 
     while frontier.qsize()>0:
-        current_state = frontier.pop();
+        current_state = frontier.get();
         current_path = paths[str(current_state.x) + str(current_state.y) + str(current_state.orientation)];
         explored_states.add(current_state);
         for possible_action in possible_actions:
