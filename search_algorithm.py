@@ -83,7 +83,7 @@ def ucs():
         explored_states.append(current_state);
         for possible_action in possible_actions:
             (nextstate, cost) = problem.get_successor(current_state, possible_action);
-            if nextstate not in explored_states and nextstate not in zip(*frontier)[1] and cost > 0:
+            if nextstate not in explored_states and cost > 0:
                 print(stringifyState(current_state), stringifyState(nextstate), possible_action);
                 path_e = current_path[:];
                 path_e.append(possible_action);
