@@ -113,7 +113,8 @@ if __name__ == "__main__":
     if algorithm is None:
         print "Incorrect Algorithm name."
         exit(1)
-    actions = algorithm()
+    actions = algorithm();
+    print(actions);
     exec_action_list(actions);
 
 
