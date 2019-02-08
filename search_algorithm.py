@@ -103,7 +103,7 @@ def astar():
    
 
  # to execute a plan action_list = <list of actions>, use:
-def exec_action_list(self, action_list):
+def exec_action_list(action_list):
     plan_str = '_'.join(action for action in action_list)
     publisher.publish(String(data = plan_str))
 
@@ -115,7 +115,7 @@ if __name__ == "__main__":
         exit(1)
     actions = algorithm();
     print(actions);
-    exec_action_list(algorithm,actions);
+    exec_action_list(actions);
 
 
 
