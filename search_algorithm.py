@@ -5,7 +5,7 @@ import problem
 import rospy
 from std_msgs.msg import String
 import argparse
-import Queue as queue
+from collections import deque
 
 publisher = rospy.Publisher("/actions",String,queue_size =10)
 parser = argparse.ArgumentParser()
@@ -17,7 +17,7 @@ def bfs():
     init_state = problem.get_initial_state()
     goal_state = problem.get_goal_state()
     possible_actions = problem.get_actions()
-    frontier = queue.Queue();
+
     action_list = [];
     paths = {};
     paths[str(init_state.x) + str(init_state.y) + str(init_state.orientation)] = action_list;
@@ -25,13 +25,13 @@ def bfs():
     if (problem.is_goal_state(init_state)):
         return paths[init_state];
     explored_states = [];
-    frontier.put(init_state);
+    frontier = deque(init_state);
 
     #to get the next state, cost for an action on state_x use:
     '''(nextstate, cost) = problem.get_successor(state, action)'''
 
-    while frontier.qsize()>0:
-        current_state = frontier.get();
+    while frontier:
+        current_state = frontier.popleft();
         current_path = paths[str(current_state.x) + str(current_state.y) + str(current_state.orientation)];
         explored_states.append(current_state);
         for possible_action in possible_actions:
@@ -41,7 +41,7 @@ def bfs():
                 path_e.append(possible_action);
                 if(problem.is_goal_state(nextstate)):
                     return path_e;
-                frontier.put(nextstate);
+                frontier.append(nextstate);
                 paths[str(nextstate.x) + str(nextstate.y) + str(nextstate.orientation)] = path_e;
 
 
