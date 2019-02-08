@@ -43,6 +43,8 @@ def bfs():
                 path_e.append(possible_action);
                 if(problem.is_goal_state(nextstate)):
                     print("goal found ");
+                    print(frontier);
+                    print(explored_states);
                     return path_e;
                 frontier.append(nextstate);
                 paths[str(nextstate.x) + str(nextstate.y) + str(nextstate.orientation)] = path_e;
