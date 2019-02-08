@@ -115,7 +115,7 @@ if __name__ == "__main__":
         exit(1)
     actions = algorithm();
     print(actions);
-    exec_action_list(actions);
+    exec_action_list(algorithm,actions);
 
 
 
