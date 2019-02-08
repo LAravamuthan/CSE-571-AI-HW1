@@ -43,7 +43,7 @@ def bfs():
 
             if nextstate not in explored_states and nextstate not in frontier and cost > 0:
                 print(current_state.x, current_state.y, current_state.orientation,nextstate.x, nextstate.y, nextstate.orientation, possible_action);
-                path_e = current_path;
+                path_e = current_path.copy();
                 path_e.append(possible_action);
                 if(problem.is_goal_state(nextstate)):
                     print("goal found ");
