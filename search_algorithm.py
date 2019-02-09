@@ -15,19 +15,6 @@ parser.add_argument('-a',help = "Please mention algorithm to use. Default is BFS
 def stringifyState(state):
     return str(state.x) + str(state.y) + str(state.orientation);
 
-def contains(heap, value):
-    if len([(x, y) for x, y in heap if y == value]) > 0:
-        return True
-    return False;
-
-def costLessOverHead(heap, value, cost, paths, path_e):
-    newHeap = [i for i in heap if (i[1] != value or (i[1] == value and i[0]< cost))];
-    if len(newHeap) < len(heap):
-        print("frontier condition happened");
-        newHeap.append((cost, value));
-        paths[stringifyState(value)] = [path_e, cost];
-    heapq.heapify(newHeap);
-    return newHeap;
 
 def bfs():
     init_state = problem.get_initial_state()
@@ -62,8 +49,8 @@ def bfs():
                 if(problem.is_goal_state(nextstate)):
                     print("goal found ");
                     #print(frontier);
-                    #print(explored_states);
-                    return len(path_e);
+                    print(explored_states);
+                    return path_e;
                 frontier.append(nextstate);
                 paths[stringifyState(nextstate)] = path_e;
 
@@ -103,11 +90,10 @@ def ucs():
             path_e = current_path[:];
             path_e.append(possible_action);
             totalCost = current_cost + cost;
-            if nextstate not in explored_states and not contains(frontier, nextstate) and cost > 0:
+            if nextstate not in explored_states and cost > 0:
                 print(stringifyState(current_state), stringifyState(nextstate), possible_action);
                 heapq.heappush(frontier, (totalCost, nextstate));
                 paths[stringifyState(nextstate)] = [path_e,totalCost];
-            frontier = costLessOverHead(frontier, nextstate, totalCost, paths, path_e);
     print("goal not found");
     return [];
 
