@@ -91,7 +91,7 @@ def ucs():
             path_e = current_path[:];
             path_e.append(possible_action);
             totalCost = current_cost + cost;
-            if nextstate not in explored_states and cost > 0:
+            if nextstate not in explored_states not in frontier and cost > 0:
                 print(stringifyState(current_state), stringifyState(nextstate), possible_action);
                 heapq.heappush(frontier, (totalCost, nextstate));
                 paths[stringifyState(nextstate)] = [path_e,totalCost];
