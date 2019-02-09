@@ -21,7 +21,7 @@ def contains(heap, value):
     return False;
 
 def costLessOverHead(heap, value, cost, paths, path_e):
-    newHeap = [i for i in heap if i[1] == value and i[0] > cost];
+    newHeap = [i for i in heap if i[1] != value or i[0]< cost];
     if len(newHeap) < len(heap):
         print("frontier condition happened");
         newHeap.append((cost, value));
