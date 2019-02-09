@@ -27,6 +27,23 @@ def manhattanHeuristics(sourceState, destinationState):
 def euclideanHeuristics(sourceState, destinationState):
     return ((sourceState.x - destinationState.x) ** 2) + ((sourceState.y - destinationState.y) ** 2);
 
+def newHeuristics(sourceState, destinationState):
+    direction_map = {};
+    direction_map["EAST"] = 0;
+    direction_map["WEST"] = 180;
+    direction_map["NORTH"] = 90;
+    direction_map["SOUTH"] = 90;
+    x_axis_diff = destinationState.x - sourceState.x;
+    target_orientation = "EAST";
+    if x_axis_diff > 0:
+        target_orientation = "EAST";
+    else:
+        target_orientation = "WEST";
+    orientaion_diff = direction_map[target_orientation] - direction_map[sourceState.orientation];
+    orientaion_diff = abs(orientaion_diff/90);
+    manhattanHeuristics_value = manhattanHeuristics(sourceState, destinationState);
+    return orientaion_diff + manhattanHeuristics_value;
+
 
 def bfs():
     tic = time.clock();
@@ -286,6 +303,90 @@ def astareu():
                 totalCost = current_cost + cost + euclideanHeuristics(nextstate, goal_state);
                 # print(stringifyState(current_state), stringifyState(nextstate), possible_action);
                 heapq.heappush(frontier, (totalCost, nextstate, path_e));
+        explored_states[stringifyState(current_state)] = current_cost;
+    toc = time.clock();
+    print(toc - tic);
+    print("goal not found");
+    return [];
+
+def astarnh():
+    tic = time.clock();
+    init_state = problem.get_initial_state()
+    goal_state = problem.get_goal_state()
+    print("init state", stringifyState(init_state));
+    print("goal state", stringifyState(goal_state));
+    possible_actions = problem.get_actions()
+
+    action_list = [];
+
+    if (problem.is_goal_state(init_state)):
+        return action_list;
+    explored_states = {};
+    frontier = [(0 + newHeuristics(init_state, goal_state), init_state, action_list)];
+
+    # to get the next state, cost for an action on state_x use:
+    '''(nextstate, cost) = problem.get_successor(state, action)'''
+
+    while frontier:
+        [current_cost, current_state, current_path] = heapq.heappop(frontier);
+        if stringifyState(current_state) in explored_states and explored_states[
+            stringifyState(current_state)] < current_cost:
+            # print("skipped", stringifyState(current_state));
+            continue;
+        if (problem.is_goal_state(current_state)):
+            print("goal found ");
+            print(len(current_path));
+            toc = time.clock();
+            print(toc - tic);
+            return current_path;
+        for possible_action in possible_actions:
+            (nextstate, cost) = problem.get_successor(current_state, possible_action);
+            if stringifyState(nextstate) not in explored_states and cost > 0:
+                path_e = current_path[:];
+                path_e.append(possible_action);
+                totalCost = current_cost + cost + newHeuristics(nextstate, goal_state);
+                # print(stringifyState(current_state), stringifyState(nextstate), possible_action);
+                heapq.heappush(frontier, (totalCost, nextstate, path_e));
+        explored_states[stringifyState(current_state)] = current_cost;
+    toc = time.clock();
+    print(toc - tic);
+    print("goal not found");
+    return [];
+
+
+def gbfseu():
+    tic = time.clock();
+    init_state = problem.get_initial_state()
+    goal_state = problem.get_goal_state()
+    print("init state", stringifyState(init_state));
+    print("goal state", stringifyState(goal_state));
+    possible_actions = problem.get_actions()
+
+    action_list = [];
+
+    if (problem.is_goal_state(init_state)):
+        return action_list;
+    explored_states = {};
+    frontier = [(newHeuristics(init_state, goal_state), init_state, action_list)];
+
+    # to get the next state, cost for an action on state_x use:
+    '''(nextstate, cost) = problem.get_successor(state, action)'''
+
+    while frontier:
+        [current_cost, current_state, current_path] = heapq.heappop(frontier);
+        if (problem.is_goal_state(current_state)):
+            print("goal found ");
+            print(len(current_path));
+            toc = time.clock();
+            print(toc - tic);
+            return current_path;
+        for possible_action in possible_actions:
+            (nextstate, cost) = problem.get_successor(current_state, possible_action);
+            if stringifyState(nextstate) not in explored_states and cost > 0:
+                path_e = current_path[:];
+                path_e.append(possible_action);
+                # print(stringifyState(current_state), stringifyState(nextstate), possible_action);
+                heapq.heappush(frontier, (newHeuristics(nextstate, goal_state), nextstate, path_e));
         explored_states[stringifyState(current_state)] = current_cost;
     toc = time.clock();
     print(toc - tic);
