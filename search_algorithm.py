@@ -294,13 +294,13 @@ def astareu():
 
 
 def plotResults():
-    bfs_list = [0.438, 0.977, 1.736, 6.919];
-    ucs_list = [0.159, 0.805, 1.321, 3.401];
-    gbfs_list = [0.094, 0.875, 1.331, 2.942];
-    astar_list = [0.139, 0.809, 1.326, 2.59];
+    bfs_list = [0.15, 0.48, 1.59, 6.19];
+    ucs_list = [0.17, 0.70, 2.48, 18.14];
+    gbfs_list = [0.06, 0.18, 0.35, 1.29];
+    astar_list = [0.15, 0.39, 1.38, 4.88];
 
-    gbfs_list_euc = [0.09, 0.9, 1.277, 2.5];
-    astar_list_euc = [0.09, 0.712, 1.12, 2.44];
+    gbfs_list_euc = [0.06, 0.24, 0.30, 1.32];
+    astar_list_euc = [0.15, 0.44, 1.12, 3.79];
 
     x_axis = [2, 4, 8, 16];
 
@@ -333,4 +333,4 @@ if __name__ == "__main__":
     actions = algorithm();
     print(actions);
     exec_action_list(actions);
-    # plotResults();
+    plotResults();
