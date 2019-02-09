@@ -49,7 +49,8 @@ def bfs():
                 if(problem.is_goal_state(nextstate)):
                     print("goal found ");
                     #print(frontier);
-                    print(explored_states);
+                    #print(explored_states);
+                    print(len(path_e));
                     return path_e;
                 frontier.append(nextstate);
                 paths[stringifyState(nextstate)] = path_e;
