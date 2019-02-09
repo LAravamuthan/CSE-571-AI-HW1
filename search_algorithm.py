@@ -417,6 +417,25 @@ def plotResults():
     plt.ylabel("time taken(sec)");
     plt.show();
 
+def plotResults1():
+
+    gbfs_list = [0.12, 0.76, 2.04];
+    astar_list = [0.35, 1.57, 3.74];
+
+    gbfs_list_nH = [0.19, 0.51, 1.02];
+    astar_list_nH = [0.40, 1.49, 3.66];
+
+    x_axis = [2, 4, 8];
+    plt.plot(x_axis, gbfs_list, label="GBFS");
+    plt.plot(x_axis, astar_list, label="A*");
+    plt.plot(x_axis, gbfs_list_nH, label="GBFS_new Heuristics");
+    plt.plot(x_axis, astar_list_nH, label="A* new Heuristics");
+
+    plt.legend(loc='upper left');
+    plt.xlabel('dimensions');
+    plt.ylabel("time taken(sec)");
+    plt.show();
+
 
 # to execute a plan action_list = <list of actions>, use:
 def exec_action_list(action_list):
@@ -435,3 +454,4 @@ if __name__ == "__main__":
     print(actions);
     exec_action_list(actions);
     #plotResults();
+    plotResults1();
