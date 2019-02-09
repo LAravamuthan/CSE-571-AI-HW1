@@ -16,6 +16,12 @@ parser.add_argument('-a',help = "Please mention algorithm to use. Default is BFS
 def stringifyState(state):
     return str(state.x) + str(state.y) + str(state.orientation);
 
+def manhattanHeuristics(sourceState, destinationState):
+    return abs(sourceState.x - destinationState.x) + abs(sourceState.y - destinationState.y);
+
+def euclideanHeuristics(sourceState, destinationState):
+    return ((sourceState.x - destinationState.x)**2) + ((sourceState.y - destinationState.y)**2);
+
 
 def bfs():
     tic = time.clock();
@@ -97,10 +103,10 @@ def ucs():
             return current_path;
         for possible_action in possible_actions:
             (nextstate, cost) = problem.get_successor(current_state, possible_action);
-            path_e = current_path[:];
-            path_e.append(possible_action);
-            totalCost = current_cost + cost;
             if stringifyState(nextstate) not in explored_states and cost > 0:
+                path_e = current_path[:];
+                path_e.append(possible_action);
+                totalCost = current_cost + cost;
                 #print(stringifyState(current_state), stringifyState(nextstate), possible_action);
                 heapq.heappush(frontier, (totalCost, nextstate, path_e));
         explored_states[stringifyState(current_state)] = current_cost;
@@ -110,38 +116,87 @@ def ucs():
     return [];
 
 def gbfs():
+    tic = time.clock();
     init_state = problem.get_initial_state()
     goal_state = problem.get_goal_state()
-    possible_actions = problem.get_actions() 
-    action_list = []
+    print("init state", stringifyState(init_state));
+    print("goal state", stringifyState(goal_state));
+    possible_actions = problem.get_actions()
 
-    #to get the next state, cost for an action on state_x use:
+    action_list = [];
 
+    if (problem.is_goal_state(init_state)):
+        return action_list;
+    explored_states = {};
+    frontier = [(manhattanHeuristics(init_state, goal_state), init_state, action_list)];
 
-    '''
-     (nextstate, cost) = problem.get_successor(state, action)
-    YOUR CODE HERE
-    '''
+    # to get the next state, cost for an action on state_x use:
+    '''(nextstate, cost) = problem.get_successor(state, action)'''
 
-
-    return action_list
+    while frontier:
+        [current_cost, current_state, current_path] = heapq.heappop(frontier);
+        if (problem.is_goal_state(current_state)):
+            print("goal found ");
+            print(len(current_path));
+            toc = time.clock();
+            print(toc - tic);
+            return current_path;
+        for possible_action in possible_actions:
+            (nextstate, cost) = problem.get_successor(current_state, possible_action);
+            if stringifyState(nextstate) not in explored_states and cost > 0:
+                path_e = current_path[:];
+                path_e.append(possible_action);
+                # print(stringifyState(current_state), stringifyState(nextstate), possible_action);
+                heapq.heappush(frontier, (manhattanHeuristics(nextstate, goal_state), nextstate, path_e));
+        explored_states[stringifyState(current_state)] = manhattanHeuristics(nextstate, goal_state);
+    toc = time.clock();
+    print(toc - tic);
+    print("goal not found");
+    return [];
 
 def astar():
+    tic = time.clock();
     init_state = problem.get_initial_state()
     goal_state = problem.get_goal_state()
-    possible_actions = problem.get_actions() 
-    action_list = []
+    print("init state", stringifyState(init_state));
+    print("goal state", stringifyState(goal_state));
+    possible_actions = problem.get_actions()
 
-    #to get the next state, cost for an action on state_x use:
+    action_list = [];
 
+    if (problem.is_goal_state(init_state)):
+        return action_list;
+    explored_states = {};
+    frontier = [(0+manhattanHeuristics(init_state, goal_state), init_state, action_list)];
 
-    '''
-    YOUR CODE HERE
-    (nextstate, cost) = problem.get_successor(state, action)
-    '''
+    # to get the next state, cost for an action on state_x use:
+    '''(nextstate, cost) = problem.get_successor(state, action)'''
 
-
-    return action_list
+    while frontier:
+        [current_cost, current_state, current_path] = heapq.heappop(frontier);
+        if stringifyState(current_state) in explored_states and explored_states[
+            stringifyState(current_state)] < current_cost:
+            # print("skipped", stringifyState(current_state));
+            continue;
+        if (problem.is_goal_state(current_state)):
+            print("goal found ");
+            print(len(current_path));
+            toc = time.clock();
+            print(toc - tic);
+            return current_path;
+        for possible_action in possible_actions:
+            (nextstate, cost) = problem.get_successor(current_state, possible_action);
+            if stringifyState(nextstate) not in explored_states and cost > 0:
+                path_e = current_path[:];
+                path_e.append(possible_action);
+                totalCost = current_cost + cost + manhattanHeuristics(nextstate, goal_state);
+                # print(stringifyState(current_state), stringifyState(nextstate), possible_action);
+                heapq.heappush(frontier, (totalCost, nextstate, path_e));
+        explored_states[stringifyState(current_state)] = current_cost;
+    toc = time.clock();
+    print(toc - tic);
+    print("goal not found");
+    return [];
 
 
    
