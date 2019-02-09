@@ -43,7 +43,7 @@ def bfs():
         for possible_action in possible_actions:
             (nextstate, cost) = problem.get_successor(current_state,possible_action);
             if nextstate not in explored_states and nextstate not in frontier and cost > 0:
-                print(stringifyState(current_state),stringifyState(nextstate), possible_action);
+                #print(stringifyState(current_state),stringifyState(nextstate), possible_action);
                 path_e = current_path[:];
                 path_e.append(possible_action);
                 if(problem.is_goal_state(nextstate)):
@@ -78,7 +78,7 @@ def ucs():
     while frontier:
         [current_cost, current_state, current_path]= heapq.heappop(frontier);
         if stringifyState(current_state) in explored_states and explored_states[stringifyState(current_state)] < current_cost:
-            print("skipped", stringifyState(current_state));
+            #print("skipped", stringifyState(current_state));
             continue;
         if (problem.is_goal_state(current_state)):
             print("goal found ");
@@ -90,7 +90,7 @@ def ucs():
             path_e.append(possible_action);
             totalCost = current_cost + cost;
             if stringifyState(nextstate) not in explored_states and cost > 0:
-                print(stringifyState(current_state), stringifyState(nextstate), possible_action);
+                #print(stringifyState(current_state), stringifyState(nextstate), possible_action);
                 heapq.heappush(frontier, (totalCost, nextstate, path_e));
         explored_states[stringifyState(current_state)] = current_cost;
     print("goal not found");
