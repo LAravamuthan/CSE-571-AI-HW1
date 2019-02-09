@@ -72,7 +72,7 @@ def ucs():
     if (problem.is_goal_state(init_state)):
         return paths[stringifyState(init_state)];
     explored_states = {};
-    frontier = [0, init_state];
+    frontier = [(0, init_state)];
 
     # to get the next state, cost for an action on state_x use:
     '''(nextstate, cost) = problem.get_successor(state, action)'''
