@@ -6,6 +6,7 @@ import rospy
 from std_msgs.msg import String
 import argparse
 from collections import deque
+import time
 
 rospy.init_node("walk")
 publisher = rospy.Publisher("/actions",String,queue_size =10)
@@ -17,6 +18,7 @@ def stringifyState(state):
 
 
 def bfs():
+    tic = time.time();
     init_state = problem.get_initial_state()
     goal_state = problem.get_goal_state()
     print("init state", stringifyState(init_state));
@@ -28,6 +30,8 @@ def bfs():
     paths[stringifyState(init_state)] = action_list;
 
     if (problem.is_goal_state(init_state)):
+        toc = time.time();
+        print(toc-tic);
         return paths[stringifyState(init_state)];
     explored_states = [];
     frontier = deque();
@@ -51,14 +55,19 @@ def bfs():
                     #print(frontier);
                     #print(explored_states);
                     print(len(path_e));
+                    toc = time.time();
+                    print(toc - tic);
                     return path_e;
                 frontier.append(nextstate);
                 paths[stringifyState(nextstate)] = path_e;
 
     print("goal not found");
+    toc = time.time();
+    print(toc - tic);
     return [];
 
 def ucs():
+    tic = time.time();
     init_state = problem.get_initial_state()
     goal_state = problem.get_goal_state()
     print("init state", stringifyState(init_state));
@@ -83,6 +92,8 @@ def ucs():
         if (problem.is_goal_state(current_state)):
             print("goal found ");
             print(len(current_path));
+            toc = time.time();
+            print(toc - tic);
             return current_path;
         for possible_action in possible_actions:
             (nextstate, cost) = problem.get_successor(current_state, possible_action);
@@ -93,6 +104,8 @@ def ucs():
                 #print(stringifyState(current_state), stringifyState(nextstate), possible_action);
                 heapq.heappush(frontier, (totalCost, nextstate, path_e));
         explored_states[stringifyState(current_state)] = current_cost;
+    toc = time.time();
+    print(toc - tic);
     print("goal not found");
     return [];
 
