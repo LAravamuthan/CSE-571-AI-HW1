@@ -7,6 +7,7 @@ from std_msgs.msg import String
 import argparse
 from collections import deque
 import time
+import matplotlib.pyplot as plt
 
 rospy.init_node("walk")
 publisher = rospy.Publisher("/actions",String,queue_size =10)
@@ -198,7 +199,28 @@ def astar():
     print("goal not found");
     return [];
 
+def plotResults():
+    bfs_list = [0.438, 0.977, 1.736, 6.919];
+    ucs_list = [0.159, 0.805, 1.321, 3.401];
+    gbfs_list = [0.094, 0.875, 1.331, 2.942];
+    astar_list = [0.139, 0.809, 1.326, 2.59];
 
+    gbfs_list_euc = [0.09, 0.9, 1.277, 2.5];
+    astar_list_euc = [0.09, 0.712, 1.12, 2.44];
+
+    x_axis = [2, 4, 8, 16];
+
+    plt.plot(x_axis, bfs_list, label="BFS");
+    plt.plot(x_axis, ucs_list, label="UCS");
+    plt.plot(x_axis, gbfs_list, label="GBFS");
+    plt.plot(x_axis, astar_list, label="A*");
+    plt.plot(x_axis, gbfs_list_euc, label="GBFS_EUCLIDEAN");
+    plt.plot(x_axis, astar_list_euc, label="A* EUCLIDEAN");
+
+    plt.legend(loc='upper left');
+    plt.xlabel('dimensions');
+    plt.ylabel("time taken(sec)");
+    plt.show();
    
 
  # to execute a plan action_list = <list of actions>, use:
@@ -215,3 +237,6 @@ if __name__ == "__main__":
     actions = algorithm();
     print(actions);
     exec_action_list(actions);
+    #plotResults();
+
+
