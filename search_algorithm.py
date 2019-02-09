@@ -354,7 +354,7 @@ def astarnh():
     return [];
 
 
-def gbfsenh():
+def gbfsnh():
     tic = time.clock();
     init_state = problem.get_initial_state()
     goal_state = problem.get_goal_state()
