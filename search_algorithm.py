@@ -71,9 +71,8 @@ def ucs():
 
     if (problem.is_goal_state(init_state)):
         return paths[stringifyState(init_state)];
-    explored_states = [];
-    frontier = [];
-    heapq.heappush(frontier, (0, init_state));
+    explored_states = {};
+    frontier = [0, init_state];
 
     # to get the next state, cost for an action on state_x use:
     '''(nextstate, cost) = problem.get_successor(state, action)'''
@@ -81,20 +80,22 @@ def ucs():
     while frontier:
         current_state = heapq.heappop(frontier)[1];
         [current_path, current_cost] = paths[stringifyState(current_state)];
+        if stringifyState(current_state) in explored_states and explored_states[stringifyState(current_state)] < current_cost:
+            continue;
         if (problem.is_goal_state(current_state)):
             print("goal found ");
             print(len(current_path));
             return current_path;
-        explored_states.append(current_state);
         for possible_action in possible_actions:
             (nextstate, cost) = problem.get_successor(current_state, possible_action);
             path_e = current_path[:];
             path_e.append(possible_action);
             totalCost = current_cost + cost;
-            if nextstate not in explored_states not in frontier and cost > 0:
+            if stringifyState(nextstate) not in explored_states and cost > 0:
                 print(stringifyState(current_state), stringifyState(nextstate), possible_action);
                 heapq.heappush(frontier, (totalCost, nextstate));
                 paths[stringifyState(nextstate)] = [path_e,totalCost];
+        explored_states[stringifyState(current_state)] = current_cost;
     print("goal not found");
     return [];
 
